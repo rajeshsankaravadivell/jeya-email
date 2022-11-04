@@ -6,6 +6,10 @@ const admin = require('firebase-admin')
 
 admin.initializeApp();
 
+// module.exports.runAgain = functions.pubsub.schedule('* * * * *').onRun((context) => {
+
+// })
+
 
 exports.sendMail = functions.https.onRequest((req, res) => {
 
@@ -18,7 +22,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     async function main() {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
-        console.clear()
+       
         // const data = [];
         
 
@@ -31,7 +35,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     
 
         const convertJsontoExcel = () => {
-            const workSheet = XLSX.utils.json_to_sheet(snapshot);
+            const workSheet = XLSX.utils.json_to_sheet(snapshot.docs.map((e) => e.data()));
             const worBook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(worBook, workSheet, "assesments");
             XLSX.write(worBook, {
@@ -54,12 +58,12 @@ exports.sendMail = functions.https.onRequest((req, res) => {
         let transporter = nodemailer.createTransport(
 
             {
-                "host": "smtp-relay.sendinblue.com",
+                "host": "smtp.gmail.com",
                 "port": 587,
                 "secure": false,
                 "auth": {
-                    "user": "support@digisailor.com",
-                    "pass": "S2JEwyrnBMIALHhU"
+                    "user": "rajeshsankaravadivell@gmail.com",
+                    "pass": "mkjmzbybcsbxbzpw"
                 }
             }
 
@@ -67,10 +71,10 @@ exports.sendMail = functions.https.onRequest((req, res) => {
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"Jeya industries" <support@digisailor.com>', // sender address
-            to: 'rampowiz@gmail.com', // list of receivers
+            from: "support@digisailor.com", // sender address
+            to:  "rampowiz@gmail.com", // list of receivers
             subject: "daily report", // Subject line
-            text: "report", // plain text body
+            text: "report", // plain text bodyj
             attachments: [
                 {   // utf-8 string as an attachment
                     path: './Assesments.xlsx',
