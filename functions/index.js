@@ -13,7 +13,7 @@ admin.initializeApp();
 
 exports.sendMail = functions.https.onRequest((req, res) => {
 
-    const body=req.body;
+    const body= req.body;
     const email= body["email"];
 
     functions.logger.log(email);
